@@ -4,7 +4,9 @@ class Score {
   score = 0;
   scoreCounter = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageChange = true;
+  stageIdx =1000;
+  maxStage = 1006;
+  //stageChange = true;
 
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
@@ -16,9 +18,10 @@ class Score {
     this.score += deltaTime * 0.001;
     this.scoreCounter += deltaTime * 0.001;
 
-    if (Math.floor(this.score) === 10 && this.stageChange) {
-      this.stageChange = false;
-      sendEvent(11, { currentStage: 1000, targetStage: 1001 });
+    if (this.stageIdx < this.maxStage && this.scoreCounter >= 10) {
+      this.scoreCounter = 0;
+      sendEvent(11, { currentStage: this.stageIdx, targetStage: this.stageIdx +1 });
+      this.stageIdx +=1;
     }
   }
 
