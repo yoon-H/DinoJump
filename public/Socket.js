@@ -1,4 +1,5 @@
 import { CLIENT_VERSION } from './Constants.js';
+import { initData } from './Data.js';
 
 const socket = io('http://localhost:3000', {
   query: {
@@ -8,7 +9,12 @@ const socket = io('http://localhost:3000', {
 
 let userId = null;
 socket.on('response', (data) => {
-  console.log(data);
+
+  if (data.id === 'gameAssets') {
+    const { gameAssets } = data;
+
+    initData(gameAssets);
+  }
 });
 
 socket.on('connection', (data) => {
