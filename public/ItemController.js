@@ -1,4 +1,6 @@
 import Item from "./Item.js";
+import { score } from "./index.js";
+
 
 class ItemController {
 
@@ -31,7 +33,7 @@ class ItemController {
     }
 
     createItem() {
-        const index = this.getRandomNumber(0, this.itemImages.length - 1);
+        const index = this.getRandomNumber(0, score.getStageIdx() - 1);
         const itemInfo = this.itemImages[index];
         const x = this.canvas.width * 1.5;
         const y = this.getRandomNumber(

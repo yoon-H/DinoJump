@@ -5,8 +5,9 @@ class Score {
   score = 0;
   scoreCounter = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageIdx = 1000;
+  minStage = 1000;
   maxStage = 1006;
+  stageIdx = this.minStage;
   scorePerSec = 1;
 
   constructor(ctx, scaleRatio) {
@@ -46,6 +47,10 @@ class Score {
 
   getScore() {
     return this.score;
+  }
+
+  getStageIdx() {
+    return this.stageIdx - this.minStage +1;
   }
 
   draw() {
