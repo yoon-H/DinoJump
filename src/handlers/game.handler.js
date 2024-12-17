@@ -1,5 +1,5 @@
-import { getGameAssets } from "../init/assets.js";
-import { setStage, getStage, clearStage } from "../models/stage.model.js";
+import { getGameAssets } from '../init/assets.js';
+import { setStage, getStage, clearStage } from '../models/stage.model.js';
 
 export const gameStart = (uuid, payload) => {
   const { stages } = getGameAssets();
@@ -44,4 +44,10 @@ export const gameEnd = (uuid, payload) => {
   // saveGameResult(userId, clientScore, gameEndTime);
   // 검증이 통과되면 게임 종료 처리
   return { status: 'success', message: 'Game ended successfully', score };
+};
+
+export const getGameTables = (uuid, payload) => {
+  const gameAssets = getGameAssets();
+
+  return { status: 'success', id: 'gameAssets', gameAssets };
 };
