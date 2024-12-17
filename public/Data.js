@@ -11,3 +11,11 @@ export const initData = (gameAssets) => {
 export const getStages = () => {
     return stages;
 }
+
+export const getItems = () => {
+    return items;
+}
+
+export const getItemUnlocks = () => {
+    return itemUnlocks;
+}

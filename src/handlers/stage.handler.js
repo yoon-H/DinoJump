@@ -37,5 +37,5 @@ export const moveStageHandler = (userId, payload) => {
 
   console.log("stages : ", getStage(userId));
 
-  return { status: 'success' };
+  return { status: 'success', id: 'moveStage', stageIdx : payload.targetStage };
 };
