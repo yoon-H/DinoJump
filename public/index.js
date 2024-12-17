@@ -6,6 +6,8 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+sendEvent(5, {});
+
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
