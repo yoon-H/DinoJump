@@ -212,7 +212,6 @@ function gameLoop(currentTime) {
     updateGameSpeed(deltaTime);
 
     score.update(deltaTime);
-    score.setHighScore();
   }
 
   // if (!gameover && cactiController.collideWith(player)) {
