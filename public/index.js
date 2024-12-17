@@ -178,7 +178,7 @@ function setupGameReset() {
     setTimeout(() => {
       window.addEventListener('keyup', reset, { once: true });
     }, 1000);
-  }
+  } 
 }
 
 function clearScreen() {
@@ -212,6 +212,7 @@ function gameLoop(currentTime) {
     updateGameSpeed(deltaTime);
 
     score.update(deltaTime);
+    score.setHighScore();
   }
 
   // if (!gameover && cactiController.collideWith(player)) {
