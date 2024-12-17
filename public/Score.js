@@ -1,12 +1,13 @@
-import { sendEvent } from "./Socket.js";
+import { sendEvent } from './Socket.js';
+import { getStages } from './Data.js';
 
 class Score {
   score = 0;
   scoreCounter = 0;
   HIGH_SCORE_KEY = 'highScore';
-  stageIdx =1000;
+  stageIdx = 1000;
   maxStage = 1006;
-  //stageChange = true;
+  scorePerSec = 1;
 
   constructor(ctx, scaleRatio) {
     this.ctx = ctx;
@@ -15,13 +16,16 @@ class Score {
   }
 
   update(deltaTime) {
-    this.score += deltaTime * 0.001;
-    this.scoreCounter += deltaTime * 0.001;
+    this.score += deltaTime * 0.001 * this.scorePerSec;
+    this.scoreCounter += deltaTime * 0.001; // 10초마다 stage 이동동
 
     if (this.stageIdx < this.maxStage && this.scoreCounter >= 10) {
       this.scoreCounter = 0;
-      sendEvent(11, { currentStage: this.stageIdx, targetStage: this.stageIdx +1 });
-      this.stageIdx +=1;
+      sendEvent(11, { currentStage: this.stageIdx, targetStage: this.stageIdx + 1 });
+      this.stageIdx += 1;
+
+      // 추가 점수 변경
+      this.setScorePerSec();
     }
   }
 
@@ -60,6 +64,14 @@ class Score {
 
     this.ctx.fillText(scorePadded, scoreX, y);
     this.ctx.fillText(`HI ${highScorePadded}`, highScoreX, y);
+  }
+
+  setScorePerSec() {
+    const stages = getStages();
+
+    const curStage = stages.find((item) => item.id === this.stageIdx);
+
+    this.scorePerSec = curStage.scorePerSecond;
   }
 }
 

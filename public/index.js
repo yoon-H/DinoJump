@@ -6,6 +6,8 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+sendEvent(5, {});
+
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
@@ -176,7 +178,7 @@ function setupGameReset() {
     setTimeout(() => {
       window.addEventListener('keyup', reset, { once: true });
     }, 1000);
-  }
+  } 
 }
 
 function clearScreen() {
@@ -210,6 +212,7 @@ function gameLoop(currentTime) {
     updateGameSpeed(deltaTime);
 
     score.update(deltaTime);
+    score.setHighScore();
   }
 
   // if (!gameover && cactiController.collideWith(player)) {
