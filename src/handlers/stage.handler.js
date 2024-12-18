@@ -1,6 +1,6 @@
 import { getGameAssets } from '../init/assets.js';
 import { getStage, setStage } from '../models/stage.model.js';
-import { setItem } from '../models/item.model.js';
+import { setItem, getTotalItemScore } from '../models/item.model.js';
 
 export const moveStageHandler = (userId, payload) => {
   let currentStages = getStage(userId);
@@ -17,21 +17,41 @@ export const moveStageHandler = (userId, payload) => {
     return { status: 'fail', message: 'Current Stage mismatch' };
   }
 
-  // 점수 검증
+  /** 점수 검증 */
+
+  // 이번 스테이지에서 얻은 점수
   const serverTime = Date.now(); //현재 타임스탬프
   const elapsedTime = (serverTime - currentStage.timestamp) / 1000;
+  const totalScorePerSec = elapsedTime * currentStage.scorePerSecond;
 
-  // 1스테이지 -> 2스테이지로 넘어가는 가정
-  // 5 => 임의로 정한 오차범위
-  if (elapsedTime < 10 || elapsedTime > 10.5) {
-    return { status: 'fail', message: 'Invalid elapsed time' };
-  }
+  // 아이템으로 얻은 점수
+  const totalItemScore = getTotalItemScore(userId, currentStage.stageIdx);
 
-  // targetStage 검증 <- 게임 에셋에 존재하는가?
+  // 종합 점수
+  const stageScore = Math.floor(totalScorePerSec + totalItemScore);
+
   const { stages } = getGameAssets();
 
-  if (!stages.data.some((stage) => stage.id === payload.targetStage)) {
+  const tableCurrentStage = stages.data.find((stage) => stage.id === payload.currentStage);
+
+  // 점수 검증
+  const totalScore = stageScore + tableCurrentStage.score;
+
+  if (totalScore < payload.score || totalScore > payload.score + 5) {
+    return { status: 'fail', message: 'Score mismatch' };
+  }
+
+  // 타겟 스테이지 찾기
+  const targetStage = stages.data.find((stage) => stage.id === payload.targetStage);
+
+  // targetStage 검증 <- 게임 에셋에 존재하는가?
+  if (!targetStage) {
     return { status: 'fail', message: 'Target stage not found' };
+  }
+
+  // 타겟 스테이지 점수 검증
+  if (totalScore < targetStage.score) {
+    return { status: 'fail', message: 'Score is lower than targetStage' };
   }
 
   setStage(userId, payload.targetStage, serverTime);

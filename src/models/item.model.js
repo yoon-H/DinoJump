@@ -15,3 +15,15 @@ export const setItem = (uuid, stageId, id, score, timestamp) => {
 export const clearItems = (uuid) => {
   return (items[uuid] = []);
 };
+
+export const getTotalItemScore = (uuid, stage) => {
+  const items = getItems(uuid);
+
+  const curItems = items.filter((item) => (item.stageId = stage));
+
+  if (!curItems) return 0;
+  else {
+    const totalScore = curItems.reduce((acc, item) => (acc += item.score), 0);
+    return totalScore;
+  }
+};
