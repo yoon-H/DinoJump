@@ -1,5 +1,5 @@
 import { sendEvent } from './Socket.js';
-import { getStages } from './Data.js';
+import { getStages, getItems } from './Data.js';
 
 class Score {
   score = 0;
@@ -31,7 +31,11 @@ class Score {
   }
 
   getItem(itemId) {
-    this.score += 0;
+    const item = getItems().find((element) => element.id === itemId);
+
+    sendEvent(21, { stage: this.stageIdx, itemId, score: item.score });
+
+    this.score += item.score;
   }
 
   reset() {
@@ -50,7 +54,7 @@ class Score {
   }
 
   getStageIdx() {
-    return this.stageIdx - this.minStage +1;
+    return this.stageIdx - this.minStage + 1;
   }
 
   draw() {
