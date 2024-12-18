@@ -27,7 +27,7 @@ class ItemController {
         const currentUnlock = itemUnlocks.find((item) => item.stage_id === stageIdx);
 
         this.unlockedId = currentUnlock.id;
-        this.unlockedItems.push(currentUnlock.item_id);
+        this.unlockedItems = currentUnlock.item_id;
     }
 
     setNextItemTime() {
