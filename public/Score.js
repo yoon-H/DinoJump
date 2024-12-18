@@ -8,6 +8,7 @@ class Score {
   minStage = 1000;
   maxStage = 1006;
   stageIdx = this.minStage;
+  targetScore = 15;
   scorePerSec = 1;
 
   constructor(ctx, scaleRatio) {
@@ -18,15 +19,18 @@ class Score {
 
   update(deltaTime) {
     this.score += deltaTime * 0.001 * this.scorePerSec;
-    this.scoreCounter += deltaTime * 0.001; // 10초마다 stage 이동동
 
-    if (this.stageIdx < this.maxStage && this.scoreCounter >= 10) {
+    if (this.stageIdx < this.maxStage && this.score >= this.targetScore) {
       this.scoreCounter = 0;
-      sendEvent(11, { currentStage: this.stageIdx, targetStage: this.stageIdx + 1 });
+      sendEvent(11, {
+        currentStage: this.stageIdx,
+        targetStage: this.stageIdx + 1,
+        score: this.score,
+      });
       this.stageIdx += 1;
 
       // 추가 점수 변경
-      this.setScorePerSec();
+      this.setNextInfo();
     }
   }
 
@@ -75,12 +79,20 @@ class Score {
     this.ctx.fillText(`HI ${highScorePadded}`, highScoreX, y);
   }
 
-  setScorePerSec() {
+  setNextInfo() {
     const stages = getStages();
 
-    const curStage = stages.find((item) => item.id === this.stageIdx);
+    const index = stages.findIndex((item) => item.id === this.stageIdx);
+
+    const curStage = stages[index];
 
     this.scorePerSec = curStage.scorePerSecond;
+
+    if (this.stageIdx < this.maxStage - 1) {
+      const targetStage = stages[index + 1];
+
+      this.targetScore = targetStage.score;
+    }
   }
 }
 
