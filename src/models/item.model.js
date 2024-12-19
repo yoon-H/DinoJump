@@ -28,7 +28,7 @@ export const getStageItemScore = (uuid, stage) => {
   }
 };
 
-export const getTotalItemScore = (uuid, stage) => {
+export const getTotalItemScore = (uuid) => {
   const items = getItems(uuid);
 
   if (!items) return 0;
