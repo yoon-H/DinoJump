@@ -35,7 +35,7 @@ export const gameEnd = (uuid, payload) => {
       stageEndTime = stages[index + 1].timestamp;
     }
     const stageDuration = (stageEndTime - stage.timestamp) / 1000; // 스테이지 지속 시간 (초 단위)
-    const scorePerSec = assetStages.find((item) => item.id === stage.id).scorePerSecond; // 스테이지 당 점수
+    const scorePerSec = assetStages.data.find((item) => item.id === stage.id).scorePerSecond; // 스테이지 당 점수
     totalScore += stageDuration * scorePerSec; // 스테이지 시간 * 스테이지 당 점수
   });
 

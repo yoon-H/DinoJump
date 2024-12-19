@@ -33,7 +33,7 @@ export const getTotalItemScore = (uuid) => {
 
   if (!items) return 0;
   else {
-    const totalScore = curItems.reduce((acc, item) => (acc += item.score), 0);
+    const totalScore = items.reduce((acc, item) => (acc += item.score), 0);
     return totalScore;
   }
 };

@@ -6,6 +6,7 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+// 게임 데이터베이스 가져오기
 sendEvent(5, {});
 
 const canvas = document.getElementById('game');

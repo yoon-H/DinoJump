@@ -48,14 +48,14 @@ class Score {
   }
 
   setHighScore() {
-    sendEvent(5, {
-      gameEndTime: Date.now(),
+    sendEvent(3, {
+      timestamp: Date.now(),
       score: this.score,
     });
   }
 
   changeHighScore(score) {
-    this.highScore = score;
+    this.highScore = Math.floor(score);
   }
 
   

@@ -27,8 +27,9 @@ socket.on('response', (data) => {
       itemController.setUnlockedId(stageIdx);
       break;
     case 'highScore':
-      const { highScore: rank } = data;
-      score.changeHighScore(rank.highScore);
+      const { broadcast: rank } = data;
+
+      score.changeHighScore(rank.score);
 
     default:
       break;
