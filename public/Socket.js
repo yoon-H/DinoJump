@@ -2,35 +2,41 @@ import { CLIENT_VERSION } from './Constants.js';
 import { initData } from './Data.js';
 import { itemController } from './index.js';
 
+const USER_ID_KEY = 'userId';
+let userId = localStorage.getItem(USER_ID_KEY);
+
 const socket = io('http://localhost:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
+    userId,
   },
 });
 
-let userId = null;
 socket.on('response', (data) => {
   console.log(data);
 
-  switch(data.id) {
-    case 'gameAssets' :
+  switch (data.id) {
+    case 'gameAssets':
       const { gameAssets } = data;
 
       initData(gameAssets);
       break;
-    case 'moveStage' :
-      const {stageIdx} = data;
+    case 'moveStage':
+      const { stageIdx } = data;
 
       itemController.setUnlockedId(stageIdx);
       break;
-    default :
+    default:
       break;
   }
 });
 
 socket.on('connection', (data) => {
   console.log('connection: ', data);
-  userId = data.uuid;
+  if (!userId) {
+    userId = data.uuid;
+    localStorage.setItem(USER_ID_KEY, userId);
+  }
 });
 
 const sendEvent = (handlerId, payload) => {
