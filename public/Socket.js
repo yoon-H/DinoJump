@@ -1,5 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
 import { initData } from './Data.js';
+import { itemController } from './index.js';
 
 const socket = io('http://localhost:3000', {
   query: {
@@ -9,11 +10,21 @@ const socket = io('http://localhost:3000', {
 
 let userId = null;
 socket.on('response', (data) => {
+  console.log(data);
 
-  if (data.id === 'gameAssets') {
-    const { gameAssets } = data;
+  switch(data.id) {
+    case 'gameAssets' :
+      const { gameAssets } = data;
 
-    initData(gameAssets);
+      initData(gameAssets);
+      break;
+    case 'moveStage' :
+      const {stageIdx} = data;
+
+      itemController.setUnlockedId(stageIdx);
+      break;
+    default :
+      break;
   }
 });
 

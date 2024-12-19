@@ -39,17 +39,19 @@ const CACTI_CONFIG = [
 
 // 아이템
 const ITEM_CONFIG = [
-  { width: 50 / 1.5, height: 50 / 1.5, id: 1, image: 'images/items/pokeball_red.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 2, image: 'images/items/pokeball_yellow.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 3, image: 'images/items/pokeball_purple.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 4, image: 'images/items/pokeball_cyan.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 1, image: 'images/items/1_cherries.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 2, image: 'images/items/2_strawberry.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 3, image: 'images/items/3_apple.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 4, image: 'images/items/4_pear.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 5, image: 'images/items/5_banana.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 6, image: 'images/items/6_watermelon.png' },
 ];
 
 // 게임 요소들
 let player = null;
 let ground = null;
 let cactiController = null;
-let itemController = null;
+export let itemController = null;
 let score = null;
 
 let scaleRatio = null;
@@ -178,7 +180,7 @@ function setupGameReset() {
     setTimeout(() => {
       window.addEventListener('keyup', reset, { once: true });
     }, 1000);
-  } 
+  }
 }
 
 function clearScreen() {
@@ -212,7 +214,6 @@ function gameLoop(currentTime) {
     updateGameSpeed(deltaTime);
 
     score.update(deltaTime);
-    score.setHighScore();
   }
 
   // if (!gameover && cactiController.collideWith(player)) {
