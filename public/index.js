@@ -216,11 +216,11 @@ function gameLoop(currentTime) {
     score.update(deltaTime);
   }
 
-  // if (!gameover && cactiController.collideWith(player)) {
-  //   gameover = true;
-  //   score.setHighScore();
-  //   setupGameReset();
-  // }
+  if (!gameover && cactiController.collideWith(player)) {
+    gameover = true;
+    score.setHighScore();
+    setupGameReset();
+  }
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
