@@ -47,10 +47,10 @@ class Score {
   }
 
   setHighScore() {
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
-    if (this.score > highScore) {
-      localStorage.setItem(this.HIGH_SCORE_KEY, Math.floor(this.score));
-    }
+    sendEvent(5, {
+      gameEndTime: Date.now(),
+      score: this.score,
+    });
   }
 
   getScore() {
