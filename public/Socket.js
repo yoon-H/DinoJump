@@ -8,7 +8,7 @@ let userId = localStorage.getItem(USER_ID_KEY);
 const socket = io('http://localhost:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
-    userId : userId || ''
+    userId: userId || '',
   },
 });
 
@@ -26,6 +26,10 @@ socket.on('response', (data) => {
 
       itemController.setUnlockedId(stageIdx);
       break;
+    case 'highScore':
+      const { highScore: rank } = data;
+      changeHighScore(rank.highScore);
+
     default:
       break;
   }
