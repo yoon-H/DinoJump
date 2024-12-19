@@ -6,6 +6,9 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+// 게임 데이터베이스 가져오기
+sendEvent(5, {});
+
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
@@ -37,18 +40,20 @@ const CACTI_CONFIG = [
 
 // 아이템
 const ITEM_CONFIG = [
-  { width: 50 / 1.5, height: 50 / 1.5, id: 1, image: 'images/items/pokeball_red.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 2, image: 'images/items/pokeball_yellow.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 3, image: 'images/items/pokeball_purple.png' },
-  { width: 50 / 1.5, height: 50 / 1.5, id: 4, image: 'images/items/pokeball_cyan.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 1, image: 'images/items/1_cherries.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 2, image: 'images/items/2_strawberry.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 3, image: 'images/items/3_apple.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 4, image: 'images/items/4_pear.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 5, image: 'images/items/5_banana.png' },
+  { width: 85 / 1.5, height: 85 / 1.5, id: 6, image: 'images/items/6_watermelon.png' },
 ];
 
 // 게임 요소들
 let player = null;
 let ground = null;
 let cactiController = null;
-let itemController = null;
-let score = null;
+export let itemController = null;
+export let score = null;
 
 let scaleRatio = null;
 let previousTime = null;
@@ -56,6 +61,10 @@ let gameSpeed = GAME_SPEED_START;
 let gameover = false;
 let hasAddedEventListenersForRestart = false;
 let waitingToStart = true;
+
+export function alertWinMessage() {
+  alert('1등 축하드립니다!');
+}
 
 function createSprites() {
   // 비율에 맞는 크기
@@ -212,11 +221,11 @@ function gameLoop(currentTime) {
     score.update(deltaTime);
   }
 
-  // if (!gameover && cactiController.collideWith(player)) {
-  //   gameover = true;
-  //   score.setHighScore();
-  //   setupGameReset();
-  // }
+  if (!gameover && cactiController.collideWith(player)) {
+    gameover = true;
+    score.setHighScore();
+    setupGameReset();
+  }
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);

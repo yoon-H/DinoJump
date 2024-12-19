@@ -1,4 +1,6 @@
 import Item from "./Item.js";
+import { getItems, getItemUnlocks } from "./Data.js";
+
 
 class ItemController {
 
@@ -7,7 +9,8 @@ class ItemController {
 
     nextInterval = null;
     items = [];
-
+    unlockedItems = [];
+    unlockedId = 100;
 
     constructor(ctx, itemImages, scaleRatio, speed) {
         this.ctx = ctx;
@@ -17,6 +20,14 @@ class ItemController {
         this.speed = speed;
 
         this.setNextItemTime();
+    }
+
+    setUnlockedId(stageIdx) {
+        const itemUnlocks = getItemUnlocks();
+        const currentUnlock = itemUnlocks.find((item) => item.stage_id === stageIdx);
+
+        this.unlockedId = currentUnlock.id;
+        this.unlockedItems = currentUnlock.item_id;
     }
 
     setNextItemTime() {
@@ -31,7 +42,11 @@ class ItemController {
     }
 
     createItem() {
-        const index = this.getRandomNumber(0, this.itemImages.length - 1);
+        const size = this.unlockedItems.length;
+
+        if(size === 0) return;
+        
+        const index = this.getRandomNumber(0, size - 1);
         const itemInfo = this.itemImages[index];
         const x = this.canvas.width * 1.5;
         const y = this.getRandomNumber(
