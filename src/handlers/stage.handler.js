@@ -1,6 +1,6 @@
 import { getGameAssets } from '../init/assets.js';
 import { getStage, setStage } from '../models/stage.model.js';
-import { setItem, getTotalItemScore } from '../models/item.model.js';
+import { setItem, getStageItemScore, getTotalItemScore } from '../models/item.model.js';
 
 export const moveStageHandler = (userId, payload) => {
   let currentStages = getStage(userId);
@@ -25,7 +25,7 @@ export const moveStageHandler = (userId, payload) => {
   const totalScorePerSec = elapsedTime * currentStage.scorePerSecond;
 
   // 아이템으로 얻은 점수
-  const totalItemScore = getTotalItemScore(userId, currentStage.stageIdx);
+  const totalItemScore = getStageItemScore(userId, currentStage.stageIdx);
 
   // 종합 점수
   const stageScore = Math.floor(totalScorePerSec + totalItemScore);

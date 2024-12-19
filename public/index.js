@@ -6,6 +6,7 @@ import ItemController from './ItemController.js';
 import './Socket.js';
 import { sendEvent } from './Socket.js';
 
+// 게임 데이터베이스 가져오기
 sendEvent(5, {});
 
 const canvas = document.getElementById('game');
@@ -52,7 +53,7 @@ let player = null;
 let ground = null;
 let cactiController = null;
 export let itemController = null;
-let score = null;
+export let score = null;
 
 let scaleRatio = null;
 let previousTime = null;
@@ -60,6 +61,10 @@ let gameSpeed = GAME_SPEED_START;
 let gameover = false;
 let hasAddedEventListenersForRestart = false;
 let waitingToStart = true;
+
+export function alertWinMessage() {
+  alert('1등 축하드립니다!');
+}
 
 function createSprites() {
   // 비율에 맞는 크기
@@ -216,11 +221,11 @@ function gameLoop(currentTime) {
     score.update(deltaTime);
   }
 
-  // if (!gameover && cactiController.collideWith(player)) {
-  //   gameover = true;
-  //   score.setHighScore();
-  //   setupGameReset();
-  // }
+  if (!gameover && cactiController.collideWith(player)) {
+    gameover = true;
+    score.setHighScore();
+    setupGameReset();
+  }
   const collideWithItem = itemController.collideWith(player);
   if (collideWithItem && collideWithItem.itemId) {
     score.getItem(collideWithItem.itemId);
