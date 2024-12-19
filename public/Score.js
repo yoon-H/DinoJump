@@ -2,6 +2,7 @@ import { sendEvent } from './Socket.js';
 import { getStages, getItems } from './Data.js';
 
 class Score {
+  highScore = 0;
   score = 0;
   scoreCounter = 0;
   HIGH_SCORE_KEY = 'highScore';
@@ -53,6 +54,12 @@ class Score {
     });
   }
 
+  changeHighScore(score) {
+    this.highScore = score;
+  }
+
+  
+
   getScore() {
     return this.score;
   }
@@ -62,7 +69,7 @@ class Score {
   }
 
   draw() {
-    const highScore = Number(localStorage.getItem(this.HIGH_SCORE_KEY));
+    const highScore = this.highScore;
     const y = 20 * this.scaleRatio;
 
     const fontSize = 20 * this.scaleRatio;

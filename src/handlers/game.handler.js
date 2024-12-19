@@ -58,9 +58,15 @@ export const gameEnd = (uuid, payload) => {
   // 검증이 통과되면 게임 종료 처리
   if (highScore.uuid === uuid)
     // 최고기록이면 broadcast
-    return { status: 'success', message: 'Game ended successfully', score, broadcast: highScore };
+    return {
+      status: 'success',
+      message: 'Game ended successfully',
+      id: 'highScore',
+      score,
+      broadcast: highScore,
+    };
 
-  return { status: 'success', message: 'Game ended successfully', score };
+  return { status: 'success', message: 'Game ended successfully', id: 'endScore', score };
 };
 
 export const getGameTables = (uuid, payload) => {
