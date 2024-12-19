@@ -4,6 +4,7 @@ import { getUser, removeUser } from '../models/user.model.js';
 import handlerMappings from './handlerMapping.js';
 import { createStage } from '../models/stage.model.js';
 import { createItems } from '../models/item.model.js';
+import { getHighScore } from '../models/rank.model.js';
 
 export const handleDisconnect = (socket, uuid) => {
   removeUser(socket.id);
@@ -18,7 +19,9 @@ export const handleConnection = (socket, uuid) => {
   createStage(uuid);
   createItems(uuid);
 
-  socket.emit('connection', { uuid });
+  const rank = getHighScore();
+
+  socket.emit('connection', { uuid, highRecord: rank || '' });
 };
 
 export const handlerEvent = (io, socket, data) => {

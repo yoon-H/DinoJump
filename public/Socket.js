@@ -1,6 +1,6 @@
 import { CLIENT_VERSION } from './Constants.js';
 import { initData } from './Data.js';
-import { itemController } from './index.js';
+import { itemController, alertWinMessage, score } from './index.js';
 
 const USER_ID_KEY = 'userId';
 let userId = localStorage.getItem(USER_ID_KEY);
@@ -28,7 +28,7 @@ socket.on('response', (data) => {
       break;
     case 'highScore':
       const { highScore: rank } = data;
-      changeHighScore(rank.highScore);
+      score.changeHighScore(rank.highScore);
 
     default:
       break;
@@ -40,6 +40,14 @@ socket.on('connection', (data) => {
   if (!userId) {
     userId = data.uuid;
     localStorage.setItem(USER_ID_KEY, userId);
+  }
+
+  if (data.highRecord !== '') {
+    const highRecord = data.highRecord;
+
+    score.changeHighScore(highRecord.score);
+
+    if (userId === uuid) alertWinMessage();
   }
 });
 

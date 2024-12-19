@@ -52,7 +52,7 @@ let player = null;
 let ground = null;
 let cactiController = null;
 export let itemController = null;
-let score = null;
+export let score = null;
 
 let scaleRatio = null;
 let previousTime = null;
@@ -60,6 +60,10 @@ let gameSpeed = GAME_SPEED_START;
 let gameover = false;
 let hasAddedEventListenersForRestart = false;
 let waitingToStart = true;
+
+export function alertWinMessage() {
+  alert('1등 축하드립니다!');
+}
 
 function createSprites() {
   // 비율에 맞는 크기
