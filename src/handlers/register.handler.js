@@ -1,6 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
 import { handleConnection, handleDisconnect, handlerEvent } from './helper.js';
-import { addUser } from '../models/user.model.js';
+import { addUser, getUser } from '../models/user.model.js';
 
 const registerHandler = (io) => {
   io.on('connection', (socket) => {
@@ -10,7 +10,9 @@ const registerHandler = (io) => {
     console.log('User ID:', userId);
 
     if (!userId) userId = uuidv4();
-    addUser({ uuid: userId, socketId: socket.id });
+    const user = getUser().find((item) => item.uuid === userId);
+    
+    if(!user) addUser({ uuid: userId, socketId: socket.id });
 
     handleConnection(socket, userId);
 
