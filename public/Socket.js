@@ -5,7 +5,7 @@ import { itemController, alertWinMessage, score } from './index.js';
 const USER_ID_KEY = 'userId';
 let userId = localStorage.getItem(USER_ID_KEY);
 
-const socket = io('http://localhost:3000', {
+const socket = io('http://gureunda.shop:3000', {
   query: {
     clientVersion: CLIENT_VERSION,
     userId: userId || '',
