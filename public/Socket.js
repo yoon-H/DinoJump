@@ -48,7 +48,7 @@ socket.on('connection', (data) => {
 
     score.changeHighScore(highRecord.score);
 
-    if (userId === uuid) alertWinMessage();
+    if (userId === data.uuid) alertWinMessage();
   }
 });
 
